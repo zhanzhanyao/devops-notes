@@ -101,7 +101,12 @@
   - 自动化部署与发布
   - 变更撤销
 #### 8. 实现一个部署流水线
-  ![deployment pipeline](image/create_a_pipeline.png)
+![deployment pipeline](image/create_a_pipeline.png)
+- 部署流水线会随着项目的扩大增加组件与分支
+- 从部署流水线中的数据可发现瓶颈
 
+#### 9. 度量
+- 对软件交付流程最重要的全局度量指标：周期时间
+- 其他度量项：
 
 
