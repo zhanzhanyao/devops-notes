@@ -1,5 +1,5 @@
 ## 第二部分： 实现部署流水线
-### 第五章：构建与部署脚本化
+### 第六章：构建与部署脚本化
 #### 对构建部署的理解
 - 在大型或分布式团队里，使用脚本执行应用程序构建，测试和打包
 - 向测试环境和生产环境进行自动化部署需要一系列步骤： 配置应用程序，初始化数据，配置基础设施、操作系统和中间件，以及安装所需的模拟外部系统。
@@ -52,3 +52,52 @@
 - 使用效果幂等的工具进行部署？
 
 ##### 3.6 部署系统的增量式演进
+
+#### 4. 面向JVM的应用程序的项目结构   
+
+    /project-name
+      README.txt
+      LICENSE/txt
+      /src
+        /main
+        /java    java source code for your project
+        /scala   if you use other language, they go at the same level
+        /resources    ressources for your project   
+        /filters    resources filter files   
+        /assembly    assembly descriptors       
+        /config    configration files   
+        /webapp    web application resources
+      /test
+        /java    test sources
+        /resources    test resources
+        /filters    test resource filters
+      /site    source for your project website
+      /doc    any other documentation
+    /lib
+      /runtime    libraries your project needs at run time
+      /test    libraries required to run tests
+      /build    libraries required to build your project
+
+##### 4.1 源代码管理
+- 遵循标准的Java实践，将文件放在以包名为目录名的目录中，每个文件保存一个类，若不遵守可能会引入难以发现的缺陷
+- 遵守Java的命名习惯
+- 生成的配置和元数据不应放在src，应该放在target目录中，不应提交到版本控制系统
+
+##### 4.2 测试管理
+- 将测试的源代码放在test/java目录中
+- 单元测试放在与包名对应的目录中，某个类的测试应该与类放在同一包中
+
+##### 4.3 构建输出的管理
+- Maven构建时会把生成的代码，元数据放在target文件，将此目录删除就能清除前一次构建结果
+- 构建最终生成的JAR WAR EAR二进制包，存在target目录中
+- 最开始一个项目一个JAR，项目复杂后可能不同组件不同JAR包， 创建多个JAR文件的目的是令应用程序的部署更简单，令构建流程更高效 
+  
+    /project-name
+      /target
+        /classes    complied classes
+        /test-classes    complied test classes
+        /surefire-reports   test report
+
+##### 4.4 库文件管理
+- 依赖库的两种管理方式
+- 确保应用程序所依赖的库文件都和应用程序的二进制包在一起打包
